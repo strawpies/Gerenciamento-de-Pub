@@ -36,17 +36,13 @@ int loadprodutos(Produto produtos[], FILE *arquivo) {
 
     while (fgets(linha, sizeof(linha), arquivo) != NULL) {
         if (sscanf(linha, "ID: %d", &produtos[i].id) == 1) {
-            fgets(linha, sizeof(linha), arquivo);
-            sscanf(linha, "Nome: %49[^\n]", produtos[i].nome); //esses numeros significa q o scanf vai pegar 49 caracteres da variavel
+            fscanf(arquivo, "Nome: %49[^\n]", produtos[i].nome);
 
-            fgets(linha, sizeof(linha), arquivo);
-            sscanf(linha, "Valor: %f", &produtos[i].valor);
+            fscanf(arquivo, "Valor: %f\n", &produtos[i].valor);
 
-            fgets(linha, sizeof(linha), arquivo);
-            sscanf(linha, "Descrição: %99[^\n]", produtos[i].descricao);
+            fscanf(arquivo, "Descrição: %99[^\n]", produtos[i].descricao);
 
-            fgets(linha, sizeof(linha), arquivo);
-            sscanf(linha, "Tipo: %19[^\n]", produtos[i].tipo); // usei fgets e sscanf pq só o fscanf tava dando erro com quebra de linha
+            fscanf(arquivo, "Tipo: %19[^\n]", produtos[i].tipo); // usei fgets e sscanf pq só o fscanf tava dando erro com quebra de linha
             
             i++; // incrementa pra completar o produto
         }
@@ -190,26 +186,29 @@ void addproduto() {
 }
 
 void cadastro() {
-    int escolha;
+    int escolha = 0;
 
-    printf("O que você deseja fazer?\n1. Adicionar novo produto;\n2. Editar informações já existentes;\n3. Visualizar produtos cadastrados;\n4. Sair.\n");
-    scanf("%d", &escolha);
+    while(escolha != 4){
+        printf("O que você deseja fazer?\n1. Adicionar novo produto;\n2. Editar informações já existentes;\n3. Visualizar produtos cadastrados;\n4. Sair.\n");
+        scanf("%d", &escolha);
 
-    switch (escolha) {
-        case 1:
-            addproduto();
-            break;
-        case 2:
-            editinfo();
-            break;
-        case 3:
-            viewprodutos();
-            break;
-        case 4:
-            break;
-        default:
-            printf("Escolha inválida.\n");
-    }
+   
+        switch (escolha) {
+            case 1:
+                addproduto();
+                break;
+            case 2:
+                editinfo();
+                break;
+            case 3:
+                viewprodutos();
+                break;
+            case 4:
+                break;
+            default:
+                printf("Escolha inválida.\n");
+        }
+    }    
 }
 
 int main () {
